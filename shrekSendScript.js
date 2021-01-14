@@ -1,27 +1,23 @@
 function enviarScript(scriptText){
-    const lines = scriptText.split("\n"); 
+    const lines = scriptText.replace(/^\n/gm, '').split("\n")
 
     let i = 0;       
-
-    setInterval(() => { 
-        if(i >= lines.length) return
-
-        if(lines[i].trim() != ''){ 
-            console.log(lines[i]); 
-    
-            window.InputEvent = window.Event || window.InputEvent;
-    
-            const event = new InputEvent('input', { bubbles: true });
-    
-            const textbox = document.querySelector('div._1awRl[data-tab="6"]');
-    
-            textbox.textContent = lines[i];
-    
-            textbox.dispatchEvent(event);
-    
-            document.querySelector("button._2Ujuu").click();                   
-
+    let inter = setInterval(() => {
+        if (i == lines.length) {
+            clearInterval(inter)
+            return
         }
+
+        window.InputEvent = window.Event || window.InputEvent
+
+        const event = new InputEvent('input', { bubbles: true })
+        const textbox = document.querySelector('div._1awRl[data-tab="6"]')
+
+        textbox.textContent = lines[i]
+        textbox.dispatchEvent(event)
+
+        document.querySelector("button._2Ujuu").click()
+
         i++;
     }, 2500)
 }
